@@ -3,8 +3,6 @@ __pycache__
 *.egg-info
 .DS_Store
 .vscode
-data
 demo
 debug*.*
 miner2_username*.*
-*.csv
