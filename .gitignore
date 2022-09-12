@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+*.egg-info
+.DS_Store
+.vscode
+data
+demo
+debug*.*
+miner2_username*.*
+*.csv
