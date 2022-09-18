@@ -6,3 +6,6 @@ __pycache__
 demo
 debug*.*
 miner2_username*.*
+*.csv
+*.png
+berty.py

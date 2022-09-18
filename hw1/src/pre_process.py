@@ -10,11 +10,12 @@ from nltk.tokenize import word_tokenize
 from sklearn.utils import Bunch
 from tqdm import tqdm
 
+# Define list of stopwords, lemmatizer to use, and punctuations to ignore
 stopwords_list = stopwords.words("english")
 lemmatizer = WordNetLemmatizer()
 ignored = string.punctuation + "£" + "–" + "—" + "0123456789"
 
-
+# function to remove contractions
 def remove_contractions(sentence):
     edited = []
     for word in sentence.split():
@@ -23,6 +24,7 @@ def remove_contractions(sentence):
     return " ".join(edited)
 
 
+# this is the pre-processing function applied to each review
 def process_sentence(sentence):
 
     # 1. Remove word contractions
@@ -51,10 +53,12 @@ def process_sentence(sentence):
     return " ".join(processed)
 
 
+# Define a named tuple to store the processed reviews
 Review = namedtuple("Review", ["sentiment", "review"])
 
 # read the data from train_file.csv in
 # and return a list of named tuples
+# dev percent is the percentage of the data to be used (helpful for debugging)
 def read_data(filename="../data/train_file.csv", dev_percent=0) -> list:
 
     # 1. Load CSV file and add in column headers
@@ -149,7 +153,7 @@ def ecommerce_sentiment_analysis(
 
 def test_data(filename="../data/test_file.csv", dev_percent=0):
     X = read_test_data(filename, dev_percent)
-    # y is the same type and size as X, but all values are 0
+    # create y as the same type and size as X, but all values are 0
     y = np.zeros(X.shape)
 
     assert X.shape == y.shape
@@ -165,6 +169,4 @@ if __name__ == "__main__":
     dataset = ecommerce_sentiment_analysis(
         "../data/train_file.csv", dev_percent
     )
-    # print(dataset.data.head())
     test_dataset = test_data("../data/test_file.csv", dev_percent)
-    # print(test_dataset.data.head())
