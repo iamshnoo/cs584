@@ -18,8 +18,15 @@ def main_tf_idf(config):
     train_dataset = ecommerce_sentiment_analysis(train_path, dev_percent)
 
     # 2. Vectorize the train_dataset
-    tf_idf = vectorize(train_dataset, max_features=config["tf_idf_max_features"])
+    tf_idf = vectorize(
+        train_dataset, max_features=config["tf_idf_max_features"]
+    )
     print("TF-IDF Embeddings shape : ", train_dataset.embeddings.shape)
+    print("Vocab length : ", train_dataset.vocab_length)
+    print(
+        "TF-IDF non zero percentage : ",
+        train_dataset.tf_idf_non_zero_percentage,
+    )
 
     # 2.1 Reduce dimensionality
     # lower the dimensionality, lower is my score on the leaderboard
@@ -28,6 +35,7 @@ def main_tf_idf(config):
         "TF-IDF+Truncated SVD Embeddings shape : ",
         train_dataset.embeddings.shape,
     )
+    print("SVD non zero percentage : ", train_dataset.svd_non_zero_percentage)
 
     # 3. Split the train_dataset into train and validation
 

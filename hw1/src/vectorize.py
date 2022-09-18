@@ -34,6 +34,11 @@ def vectorize(dataset, min_df=3, max_df=0.95, max_features=500):
 def reduce_dimensionality(dataset, n_components=100):
     svd = TruncatedSVD(n_components=n_components)
     dataset.embeddings = svd.fit_transform(dataset.embeddings)
+    # calculate the non zero percentage of the svd embeddings which are a numpy
+    # array
+    dataset.svd_non_zero_percentage = (
+        np.count_nonzero(dataset.embeddings) / np.prod(dataset.embeddings.shape)
+    ) * 100
     return svd
 
 
