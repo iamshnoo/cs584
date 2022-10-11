@@ -10,6 +10,7 @@ single prep-processing class.
 ```main.py``` - The main program. Run this file to verify results.
 ```configs.yaml``` - The final configurations used in ```main.py```
 ```experiments.py``` - Some ablation studies.
+```eda.py``` - Some exploratory data analysis.
 
 ```main.py``` will load configurations from ```configs.yaml```.
 Then it will load the data, apply pre-processing steps to reduce dimensionality,
