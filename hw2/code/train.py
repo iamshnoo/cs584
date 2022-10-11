@@ -21,13 +21,14 @@ import seaborn as sns
 sns.set_style("darkgrid")
 sns.set_palette("pastel")
 
+
 def calc_cv_scores(train_dataset, classifiers, cv):
     roc_auc_results, names = [], []
     f1_results = []
     precision_results = []
     recall_results = []
     print("Evaluating models...")
-    print("-"*80)
+    print("-" * 80)
     # Ignore dummy when calculating scores
     for clf in classifiers:
         if clf.model_name == "Dummy":
@@ -38,32 +39,53 @@ def calc_cv_scores(train_dataset, classifiers, cv):
         else:
             X = train_dataset.X
         for scoring in ["roc_auc", "f1_macro", "precision_macro", "recall_macro"]:
-            scores = cross_val_score(clf.model, X, train_dataset.y, scoring=scoring, cv=cv, n_jobs=-1)
+            scores = cross_val_score(
+                clf.model, X, train_dataset.y, scoring=scoring, cv=cv, n_jobs=-1
+            )
             if scoring == "roc_auc":
                 roc_auc_results.append(scores)
-                print(f"{clf.model_name}: ROC-AUC   Mean = {scores.mean():.3f}, Std = ({scores.std():.3f})")
+                print(
+                    f"{clf.model_name}: ROC-AUC   Mean = {scores.mean():.3f}, Std = ({scores.std():.3f})"
+                )
             elif scoring == "f1_macro":
                 f1_results.append(scores)
-                print(f"{clf.model_name}: F1        Mean = {scores.mean():.3f}, Std = ({scores.std():.3f})")
+                print(
+                    f"{clf.model_name}: F1        Mean = {scores.mean():.3f}, Std = ({scores.std():.3f})"
+                )
             elif scoring == "precision_macro":
                 precision_results.append(scores)
-                print(f"{clf.model_name}: Precision Mean = {scores.mean():.3f}, Std = ({scores.std():.3f})")
+                print(
+                    f"{clf.model_name}: Precision Mean = {scores.mean():.3f}, Std = ({scores.std():.3f})"
+                )
             elif scoring == "recall_macro":
                 recall_results.append(scores)
-                print(f"{clf.model_name}: Recall    Mean = {scores.mean():.3f}, Std = ({scores.std():.3f})")
-        print("-"*80)
-    return roc_auc_results,names,f1_results,precision_results,recall_results
+                print(
+                    f"{clf.model_name}: Recall    Mean = {scores.mean():.3f}, Std = ({scores.std():.3f})"
+                )
+        print("-" * 80)
+    return roc_auc_results, names, f1_results, precision_results, recall_results
 
-def box_plots_metric_comparison(roc_auc_results, names, f1_results, precision_results, recall_results):
+
+def box_plots_metric_comparison(
+    roc_auc_results, names, f1_results, precision_results, recall_results
+):
     # create a subplot with 4 figures
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 10))
-    fig.suptitle("Model Comparison - Repeated Stratified K-Fold Cross Validation", fontsize=16)
+    fig.suptitle(
+        "Model Comparison - Repeated Stratified K-Fold Cross Validation", fontsize=16
+    )
 
     # plot roc auc results
     ax1.boxplot(roc_auc_results, labels=names)
     # label the scores
     for i in range(len(names)):
-        ax1.text(i+1, roc_auc_results[i].mean(), f"{roc_auc_results[i].mean():.3f}", ha="center", va="bottom")
+        ax1.text(
+            i + 1,
+            roc_auc_results[i].mean(),
+            f"{roc_auc_results[i].mean():.3f}",
+            ha="center",
+            va="bottom",
+        )
 
     ax1.set_title("ROC-AUC")
     # ax1.set_xlabel("Classifier")
@@ -73,7 +95,13 @@ def box_plots_metric_comparison(roc_auc_results, names, f1_results, precision_re
     ax2.boxplot(f1_results, labels=names)
     # label the scores
     for i in range(len(names)):
-        ax2.text(i+1, f1_results[i].mean(), f"{f1_results[i].mean():.3f}", ha="center", va="bottom")
+        ax2.text(
+            i + 1,
+            f1_results[i].mean(),
+            f"{f1_results[i].mean():.3f}",
+            ha="center",
+            va="bottom",
+        )
     ax2.set_title("F1")
     # ax2.set_xlabel("Classifier")
     ax2.set_ylabel("F1")
@@ -82,7 +110,13 @@ def box_plots_metric_comparison(roc_auc_results, names, f1_results, precision_re
     ax3.boxplot(precision_results, labels=names)
     # label the scores
     for i in range(len(names)):
-        ax3.text(i+1, precision_results[i].mean(), f"{precision_results[i].mean():.3f}", ha="center", va="bottom")
+        ax3.text(
+            i + 1,
+            precision_results[i].mean(),
+            f"{precision_results[i].mean():.3f}",
+            ha="center",
+            va="bottom",
+        )
     ax3.set_title("Precision")
     # ax3.set_xlabel("Classifier")
     ax3.set_ylabel("Precision")
@@ -91,12 +125,19 @@ def box_plots_metric_comparison(roc_auc_results, names, f1_results, precision_re
     ax4.boxplot(recall_results, labels=names)
     # label the scores
     for i in range(len(names)):
-        ax4.text(i+1, recall_results[i].mean(), f"{recall_results[i].mean():.3f}", ha="center", va="bottom")
+        ax4.text(
+            i + 1,
+            recall_results[i].mean(),
+            f"{recall_results[i].mean():.3f}",
+            ha="center",
+            va="bottom",
+        )
     ax4.set_title("Recall")
     # ax4.set_xlabel("Classifier")
     ax4.set_ylabel("Recall")
     plt.savefig("../figs/model_comparison_box_plots.png")
     plt.show()
+
 
 if __name__ == "__main__":
     path = "../data/train.txt"
@@ -106,24 +147,59 @@ if __name__ == "__main__":
     train_dataset.X = X_res
     train_dataset.y = y_res
     train_dataset.dist = Counter(y_res)
-    print("-"*80)
+    print("-" * 80)
     print(f"X shape: {train_dataset.X.shape}")
     print(f"Number of total samples: {len(train_dataset.y)}")
     print(f"Balanced Class distribution after SMOTE : {train_dataset.dist}")
-    print("-"*80)
+    print("-" * 80)
 
     # create a list of classifiers
     classifiers = [
         Classifier(DummyClassifier(strategy="most_frequent"), "Dummy"),
-        Classifier(Perceptron(), "Perceptron"),
-        #Classifier(GaussianNB(), "GaussianNB"),
-        Classifier(MultinomialNB(), "MultinomialNB"),
-        Classifier(DecisionTreeClassifier(), "Decision Tree"),
+        Classifier(
+            Perceptron(
+                alpha=0.01,
+                class_weight={0: 0.4, 1: 0.6},
+                eta0=0.01,
+                fit_intercept=True,
+                max_iter=3000,
+                penalty="l2",
+                shuffle=True,
+                tol=0.001,
+            ),
+            "Perceptron",
+        ),
+        Classifier(
+            MultinomialNB(alpha=0.7, fit_prior=True, class_prior=[0.2, 0.8]),
+            "MultinomialNB",
+        ),
+        Classifier(
+            DecisionTreeClassifier(
+                criterion="gini", max_depth=10, min_samples_split=4, splitter="best"
+            ),
+            "Decision Tree",
+        ),
     ]
+
+    # classifiers = [
+    #     Classifier(DummyClassifier(strategy="most_frequent"), "Dummy"),
+    #     Classifier(Perceptron(), "Perceptron"),
+    #     # Classifier(GaussianNB(), "GaussianNB"),
+    #     Classifier(MultinomialNB(), "MultinomialNB"),
+    #     Classifier(DecisionTreeClassifier(), "Decision Tree"),
+    # ]
 
     # stratified k-fold cross validation
     cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=42)
     # evaluate each model
-    roc_auc_results, names, f1_results, precision_results, recall_results = calc_cv_scores(train_dataset, classifiers, cv)
+    (
+        roc_auc_results,
+        names,
+        f1_results,
+        precision_results,
+        recall_results,
+    ) = calc_cv_scores(train_dataset, classifiers, cv)
 
-    box_plots_metric_comparison(roc_auc_results, names, f1_results, precision_results, recall_results)
+    box_plots_metric_comparison(
+        roc_auc_results, names, f1_results, precision_results, recall_results
+    )

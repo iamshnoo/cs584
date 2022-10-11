@@ -38,7 +38,7 @@ def create_sparse_from_locations(locations: list) -> tuple:
     return row, col, data
 
 
-def load_dataset(filename: str = "../data/train.txt", mode: str = "train") -> Dataset:
+def load_dataset(filename="../data/train.txt", mode="train"):
 
     with open(filename, "r") as f:
         lines = f.readlines()
@@ -61,13 +61,3 @@ def load_dataset(filename: str = "../data/train.txt", mode: str = "train") -> Da
 
     # return it by wrapping it in a Dataset object
     return Dataset(X, class_labels)
-
-
-if __name__ == "__main__":
-    path = "../data/train.txt"
-    mode = "train"
-    dataset = load_dataset(path, mode)
-    print(f"X shape: {dataset.X.shape}")
-    print(f"Number of total samples: {len(dataset.y)}")
-    print(f"Class distribution: {dataset.dist}")
-    print(f"Sparsity: {dataset.sparsity}")

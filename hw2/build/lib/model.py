@@ -1,6 +1,5 @@
 from sklearn.metrics import f1_score, precision_score, recall_score
 
-
 class Classifier:
     def __init__(self, model, model_name):
         self.model = model
