@@ -31,7 +31,7 @@ class AdaBoost:
             # Step 3 : Train a weak learner on weighted data (sampling with
             # replacement according to w from the original dataset)
             if self.stump == "decision_tree":
-                model = DecisionTreeClassifier(max_depth=1)
+                model = DecisionTreeClassifier(max_depth=15)
             elif self.stump == "logistic_regression":
                 model = LogisticRegression()
             elif self.stump == "random_forest":
