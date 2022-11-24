@@ -32,7 +32,7 @@ if __name__ == "__main__":
     print_shapes(train_dataset, test_dataset)
 
     # Decision stump can be one of the following :
-    # ["decision_tree", "logistic_regression", "linear_svm", "rbf_svm", "knn", "mlp"]
+    # ["decision_tree", "logistic_regression", "random_forest", "svm"]
     clf = AdaBoost(k=1, stump=CONFIG["stump"])
     print(clf.k, clf.stump)
     cv = RepeatedStratifiedKFold(

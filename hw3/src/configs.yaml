@@ -1,8 +1,8 @@
 train_path: ../data/train.txt
 test_path: ../data/test.txt
 stump: decision_tree
-cv_f1_plot_path: ../figs/adaboost_decision_tree_cv_f1_vs_k.png
-final_predictions_path: ../outputs/adaboost_decision_tree.csv
+cv_f1_plot_path: ../figs/adaboost_decision_tree_15_cv_f1_vs_k.png
+final_predictions_path: ../outputs/adaboost_decision_tree_15.csv
 imbalance_method: SMOTETomek
 p: 0.99
 k: 7000
@@ -15,12 +15,12 @@ num_learners:
   - 15
   - 20
   - 25
-  # - 30
-  # - 35
-  # - 40
-  # - 45
-  # - 50
-  # - 100
+  - 30
+  - 35
+  - 40
+  - 45
+  - 50
+  - 100
   # - 150
   # - 200
   # - 250
