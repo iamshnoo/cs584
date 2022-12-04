@@ -11,3 +11,7 @@ miner2_username*.*
 berty.py
 submissions
 build
+outputs
+figs
+data
+*.zip
